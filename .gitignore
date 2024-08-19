@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.db
+*.log
+
+# Virtual Environment
+venv/
+.env/
+env
+
+# SQLite database
+visits.db
+# tinydb
+visits.json
