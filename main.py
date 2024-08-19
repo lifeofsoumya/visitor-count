@@ -18,6 +18,7 @@ async def webhook():
 @app.get('/api/get-image')
 async def get_image():
     Visit = Query()
+    db.update({'count': db.get(Visit.count.exists())['count'] + 1}, Visit.count.exists())
     visit_count = db.get(Visit.count.exists())['count']
 
     width, height = 300, 150
