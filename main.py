@@ -9,17 +9,26 @@ db = TinyDB('visits.json')
 if not db.all():
     db.insert({'count': 0})
 
-@app.post('/api/webhook')
-async def webhook():
+@app.post('/api/webhook/{username}')
+async def webhook(username: str):
     Visit = Query()
+    user_record = db.get(Visit.username == username)
+    if user_record is None:
+        db.insert({'username': username, 'count': 0})
+        return {"message": "Visit count incremented"}
     db.update({'count': db.get(Visit.count.exists())['count'] + 1}, Visit.count.exists())
     return {"message": "Visit count incremented"}
 
-@app.get('/api/get-image')
-async def get_image():
+@app.get('/api/get-image/{username}')
+async def get_image(username: str):
     Visit = Query()
-    db.update({'count': db.get(Visit.count.exists())['count'] + 1}, Visit.count.exists())
-    visit_count = db.get(Visit.count.exists())['count']
+    user_record = db.get(Visit.username == username)
+    if user_record is None:
+        db.insert({'username': username, 'count': 0})
+        user_record = db.get(Visit.username == username)
+
+    visit_count = user_record['count'] + 1
+    db.update({'count': visit_count}, Visit.username == username)
 
     width, height = 210, 50
     rect_width, rect_height = 210, 50
