@@ -21,8 +21,8 @@ async def get_image():
     db.update({'count': db.get(Visit.count.exists())['count'] + 1}, Visit.count.exists())
     visit_count = db.get(Visit.count.exists())['count']
 
-    width, height = 300, 150
-    rect_width, rect_height = 250, 70
+    width, height = 210, 50
+    rect_width, rect_height = 210, 50
 
     dwg = svgwrite.Drawing(size=(f"{width}px", f"{height}px"))
     
